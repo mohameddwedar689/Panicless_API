@@ -43,6 +43,12 @@ class User(AbstractBaseUser):
         error_messages={"unique": "A user with this email already exists."},
         validators=[validators.EmailValidator(message="Not valid Email")],
     )
+    image = models.ImageField(
+        upload_to="user/images",
+        blank=True,
+        null=True,
+        verbose_name=("Image"),
+    )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

@@ -19,3 +19,11 @@ class ReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reading
         fields  = '__all__'
+
+class ReadingAPISerializer(serializers.ModelSerializer):
+    """ Serializer For Reading To list heart_rate, breathing_rate, trembling_rate"""
+
+    class Meta:
+        model = Reading
+        #fields = '__all__'
+        fields  = ['heart_rate', 'breathing_rate', 'trembling_rate']

@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import generics
 
 # Imports from your apps
-from .serializers import ReadingSerializer
+from .serializers import ReadingSerializer, ReadingAPISerializer
 from reading_history.models import Reading
 
 
@@ -27,7 +27,11 @@ class ListReadingAPI(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = Reading.objects.all()
 
-
+class ListReadingHBTAPI(generics.ListAPIView):
+    """ To List list heart_rate, breathing_rate, trembling_rate Endpoint """
+    serializer_class = ReadingAPISerializer
+    permission_classes = (AllowAny,)
+    queryset = Reading.objects.all()
 
 class UpdateReadingAPI(generics.UpdateAPIView):
     """ To Update Reading Endpoint """

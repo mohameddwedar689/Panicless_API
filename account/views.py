@@ -3,9 +3,11 @@ from djoser.views import TokenCreateView
 from knox.views import LoginView
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
 
-from account.serializers import UserLoginSerializers
+# Imports third-party libraries
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import generics
+from account.serializers import UserLoginSerializers, UpdateProfile
 
 User = get_user_model()
 
@@ -26,3 +28,10 @@ class CustomLoginView(LoginView, TokenCreateView):
                 {"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST
             )
         return Response(response.data, status=status.HTTP_200_OK)
+
+
+class UpdateProfileAPI(generics.UpdateAPIView):
+    """ To Update User Profile Endpoint """
+    permission_classes = (AllowAny,)
+    queryset = User.objects.all()
+    serializer_class = UpdateProfile

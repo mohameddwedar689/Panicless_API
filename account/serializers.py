@@ -6,6 +6,7 @@ from djoser.serializers import (
     UserSerializer,
 )
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework import serializers
 from account.models import User
 
 
@@ -38,6 +39,10 @@ class UserCreateSerializers(UserCreateSerializer):
             "password",
         )
 
+class UpdateProfile(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("firstName", "lastName", "image")
 
 # ------------------- login --------------------- #
 class UserLoginSerializers(TokenCreateSerializer):

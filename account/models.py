@@ -33,31 +33,21 @@ class MyUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    firstName = models.CharField(max_length=255)
-    lastName = models.CharField(max_length=255)
+    """ models for account app """
+    firstName   = models.CharField(max_length=255)
+    lastName    = models.CharField(max_length=255)
     trustNumber = models.CharField(max_length=255)
-    email = models.EmailField(
-        verbose_name="email address",
-        max_length=255,
-        unique=True,
-        error_messages={"unique": "A user with this email already exists."},
-        validators=[validators.EmailValidator(message="Not valid Email")],
-    )
-    image = models.ImageField(
-        upload_to="user/images",
-        blank=True,
-        null=True,
-        verbose_name=("Image"),
-    )
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    email       = models.EmailField(verbose_name="email address",max_length=255,unique=True,error_messages={"unique": "A user with this email already exists."},validators=[validators.EmailValidator(message="Not valid Email")],)
+    image       = models.ImageField(upload_to="user/images",blank=True,null=True,verbose_name=("Image"),)
+    is_active   = models.BooleanField(default=True)
+    is_admin    = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True, verbose_name="Date Joined")
+    last_update = models.DateTimeField(auto_now=True, verbose_name="Updated Date")
 
-    objects = MyUserManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ("trustNumber", "firstName", "lastName")
-    date_joined = models.DateTimeField(auto_now_add=True, verbose_name="Date Joined")
-    last_update = models.DateTimeField(auto_now=True, verbose_name="Updated Date")
+    objects = MyUserManager()
 
     def __str__(self):
         return self.email

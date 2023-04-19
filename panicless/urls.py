@@ -24,7 +24,7 @@ urlpatterns = [
     ## for account app.
     path("account/", include("account.urls")),
     # ## for reading app.
-    # path('reading/', include('reading_history.urls')),
+    path('reading/', include('reading_history.urls')),
     # ## for knox app .
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

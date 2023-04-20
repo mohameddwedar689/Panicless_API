@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from reading_history.models import Reading
+
+
+admin.site.register(Reading)

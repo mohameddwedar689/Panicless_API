@@ -1,76 +1,68 @@
+# Imports standard libraries
+# ...
+
+# Imports core Django libraries
 from django.contrib.auth import authenticate
-from djoser.conf import settings
-from djoser.serializers import (
-    TokenCreateSerializer,
-    UserCreateSerializer,
-    UserSerializer,
-)
-from rest_framework.exceptions import AuthenticationFailed
+from django.conf import settings
+from django.db.models import Q
+
+# Imports third-party libraries
+from drf_spectacular.utils import extend_schema_field, OpenApiTypes
 from rest_framework import serializers
-from account.models import User
+from rest_framework import status
+
+# Imports from your apps
+from .models import Account
+from Order.serializers import OrderServiceSerializer
 
 
-# ----------- just for user ---------- #
-class UserSerializers(UserSerializer):
+
+
+
+class RegisterSerializer(serializers.ModelSerializer):
+    """Serializer For Register """
+    password = PasswordRegisterField(style={'input_type': 'password'}, min_length=6, write_only=True)
+
     class Meta:
-        model = User
-        fields = (
-            "id",
-            "firstName",
-            "lastName",
-            "email",
-            "trustNumber",
-            "is_active",
-            "is_admin",
-        )
+        model = Account
+        fields = ('username', 'first_name', 'last_name', 'phone_number', 'email', 'password', 'photo', 'fcm_token')
+
+        extra_kwargs = {
+            'password': {
+                'style': {'input_type': 'password'}
+            }
+        }
+
+    def to_representation(self, instance):
+        instance.photo = 'media/' + str(instance.photo)
+        return super().to_representation(instance)
+
+    # overide create
+    def create(self, validated_data):
+        account = Account.objects.create_user(**validated_data)
+        return account
 
 
-# ----------- register ---------------- #
-class UserCreateSerializers(UserCreateSerializer):
+class LoginSerializer(serializers.ModelSerializer):
+    """Serializer For Login """
+    email = serializers.EmailField(max_length=255)
+
     class Meta:
-        model = User
-        fields = (
-            "id",
-            "firstName",
-            "lastName",
-            "email",
-            "trustNumber",
-            "image",
-            "password",
-        )
+        model = Account
+        fields = ('email', 'password')
+        extra_kwargs = {
+            'password': {
+                'write_only': True
+            }
+        }
 
-class UpdateProfile(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ("firstName", "lastName", "image")
+        # validate user data and authenticate it to login
 
-# ------------------- login --------------------- #
-class UserLoginSerializers(TokenCreateSerializer):
-    def validate(self, attrs):
-        password = attrs.get("password")
-        params = {settings.LOGIN_FIELD: attrs.get(settings.LOGIN_FIELD)}
-        self.user = authenticate(
-            request=self.context.get("request"), **params, password=password
-        )
-        if not attrs:
-            raise AuthenticationFailed(
-                {"error": settings.CONSTANTS.messages.INVALID_CREDENTIALS_ERROR}
-            )
-        if not self.user:
-            self.user = User.objects.filter(**params).first()
-            if not self.user:
-                raise AuthenticationFailed(
-                    {"error": settings.CONSTANTS.messages.INVALID_CREDENTIALS_ERROR}
-                )
-            if not self.user.check_password(password):
-                raise AuthenticationFailed(
-                    {"error": settings.CONSTANTS.messages.PASSWORD_MISMATCH_ERROR}
-                )
-        if not self.user.is_active:
-            raise AuthenticationFailed(
-                {"error": settings.CONSTANTS.messages.INACTIVE_ACCOUNT_ERROR}
-            )
-        if self.user and self.user.is_active:
-            attrs["user"] = self.user
-            return attrs
-        self.fail("default_case")
+    def validate(self, data):
+        user = authenticate(**data)
+        # check if login user is active and profile type if driver
+        if user and user.is_active:
+            return user
+        # need to update raise
+        raise ValueError('Invalid Credentials.')
+

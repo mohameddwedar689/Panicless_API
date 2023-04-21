@@ -113,7 +113,13 @@ REST_KNOX = {
     "USER_SERIALIZER": "account.serializers.UserSerializers",
     "TOKEN_TTL": timedelta(hours=48),
 }
-
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Panicles ',
+    'DESCRIPTION': 'this is official Panicles documentation  ',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

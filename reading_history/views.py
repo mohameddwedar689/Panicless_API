@@ -27,11 +27,17 @@ class ListReadingAPI(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset           = Reading.objects.all()
     serializer_class   = ReadingSerializer
+    ordering_fields = ['id']
+    ordering = ['-id']
 
     def get_queryset(self):
         print(self.request.user, "--------------")
         queryset = Reading.objects.filter(user=self.request.user)
         return queryset
+
+    def get_paginated_response(self, data):
+        """ To Remove count, next, previous from response """
+        return Response(data)
 
 
 class DeleteReadingAPI(generics.DestroyAPIView):

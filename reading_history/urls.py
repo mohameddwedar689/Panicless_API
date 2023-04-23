@@ -5,5 +5,5 @@ urlpatterns = [
     path("list-reading/", ListReadingAPI.as_view()),
     path("update-reading/<int:pk>/", UpdateReadingAPI.as_view()),
     path("delete-reading/<int:pk>/", DeleteReadingAPI.as_view()),
-    path("last-reading/", RetrieveReadingAPI.as_view()),
+    path("last-reading/", RetrieveReadingAPI.as_view({'get': 'list'})),
 ]

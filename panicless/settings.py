@@ -114,7 +114,7 @@ REST_KNOX = {
     "TOKEN_TTL": timedelta(hours=48),
 }
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Panicles ',
+    'TITLE': 'Panicless ',
     'DESCRIPTION': 'this is official Panicles documentation  ',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,

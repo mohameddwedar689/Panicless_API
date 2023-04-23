@@ -32,6 +32,6 @@ class CustomLoginView(LoginView, TokenCreateView):
 
 class UpdateProfileAPI(generics.UpdateAPIView):
     """ To Update User Profile Endpoint """
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
     serializer_class = UpdateProfile

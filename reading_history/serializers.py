@@ -1,8 +1,4 @@
 # Imports standard libraries
-# import json
-# json_obj = json.loads(model)
-# results = json_obj["results"]
-# Imports core Django libraries
 #...
 
 # Imports third-party libraries
@@ -12,12 +8,8 @@ from rest_framework import serializers
 from .models import Reading
 
 
-
-
-
 class ReadingSerializer(serializers.ModelSerializer):
     """ Serializer For Reading To show all fields and update it """
-
 
     class Meta:
         # assuming the JSON object is stored in a string variable called json_str

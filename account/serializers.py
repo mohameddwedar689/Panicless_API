@@ -40,6 +40,7 @@ class UserCreateSerializers(UserCreateSerializer):
         )
 
 class UpdateProfile(serializers.ModelSerializer):
+    """for update profile"""
     class Meta:
         model = User
         fields = ("firstName", "lastName", "image")

@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # our apps
     "account",
     "reading_history",
+    "prediction",
 ]
 
 MIDDLEWARE = [

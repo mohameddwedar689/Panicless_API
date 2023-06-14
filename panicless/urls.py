@@ -16,8 +16,10 @@ urlpatterns = [
     # ------------------- APPS ------------------- #
     ## for account app.
     path("account/", include("account.urls")),
-    # ## for reading app.
+    ## for reading app.
     path('reading/', include('reading_history.urls')),
+    ## for prediction app.
+    path('prediction/', include('prediction.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

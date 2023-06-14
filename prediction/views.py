@@ -4,16 +4,16 @@ from rest_framework.decorators import api_view
 from django.core import serializers
 from rest_framework.response import Response
 from rest_framework import status
-from django.http import JsonResponse
-from rest_framework.parsers import JSONParser
+# from django.http import JsonResponse
+# from rest_framework.parsers import JSONParser
 from .models import features
 from .serializers import featuresSerializers
-import pickle
+# import pickle
 import joblib
-import json
+# import json
 import numpy as np
-from sklearn import preprocessing
-import pandas as pd
+# from sklearn import preprocessing
+# import pandas as pd
 
 
 # Create your views here.
